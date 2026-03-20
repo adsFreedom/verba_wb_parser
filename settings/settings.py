@@ -1,6 +1,6 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from pathlib import Path
-from typing import Optional
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -14,8 +14,16 @@ class Settings(BaseSettings):
     x_wbaas_token: str = ""
 
     def show_settings(self) -> None:
-        print(f'{self.find_str=}')
-        print(f'{self.x_wbaas_token=}')
+        env_src = self.model_config.get("env_file")
+        if Path(env_src).exists():
+            env_src = Path(env_src).resolve()
+        else:
+            env_src = "Unknown source"
+
+        print(f'Loaded settings from "{env_src}":')
+        print(f' - {self.find_str=}')
+        print(f' - {self.x_wbaas_token=}')
+        print()
 
 
 settings = Settings()
