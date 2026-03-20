@@ -32,7 +32,6 @@ class LimiterRequest:
 
     @rate_limit
     def fetch(self, url: str, params: dict, headers: dict) -> Any:
-        response_json_data = None
         try:
             response = requests.get(url, params=params, headers=headers)
             response.raise_for_status()
@@ -41,7 +40,9 @@ class LimiterRequest:
         except requests.exceptions.HTTPError as e:
             print(f"Error HTTP: {e}")
             print(f"Server response (first 200 simbols): {response.text[:200]}")
+            raise f'Error {e}'
 
         except Exception as e:
             print(f"Error: Exception {e}")
+            raise f'Error {e}'
         return response_json_data
