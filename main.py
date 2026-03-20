@@ -1,15 +1,15 @@
-from find_products import find_products
+from find_products import FindProducts
 from settings.settings import settings
+
 
 def main():
     print("---=== START ===---")
 
-    find_str = "пальто из натуральной шерсти"
-    x_wbaas_token = ""
-
-    res = find_products(find_string=find_str,
-                        x_wbaas_token=x_wbaas_token)
-    print(f"find_products: {res=}")
+    find_products = FindProducts(
+        find_string=settings.find_string,
+        x_wbaas_token=settings.x_wbaas_token,
+    )
+    find_products.request()
 
     print("---=== FINISH ===---")
 
