@@ -1,4 +1,5 @@
 from find_products import find_products
+from settings.settings import settings
 
 def main():
     print("---=== START ===---")
