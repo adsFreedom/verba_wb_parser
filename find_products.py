@@ -3,21 +3,19 @@ import urllib.parse
 from pathlib import Path
 
 from limiter_request import LimiterRequest
+from settings.settings import Settings
 
 
 class FindProducts(LimiterRequest):
-    def __init__(self, find_string: str,
-                 x_wbaas_token: str,
-                 min_request_sec: float = 1.0,
-                 max_request_sec: float = 2.0,
+    def __init__(self, settings: Settings,
                  saved_json_dir: Path = Path("saved_json_data")):
-        self.find_string = find_string
-        self.x_wbaas_token = x_wbaas_token
+        self.find_string = settings.find_string
+        self.x_wbaas_token = settings.x_wbaas_token
 
         self.saved_products_dir = saved_json_dir / "find_products"
         self.saved_products_dir.mkdir(parents=True, exist_ok=True)
 
-        super().__init__(min_request_sec, max_request_sec)
+        super().__init__(settings)
 
     def request(self) -> Path | None:
         url = (

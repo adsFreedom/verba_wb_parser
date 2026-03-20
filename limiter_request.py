@@ -5,12 +5,14 @@ from typing import Any, Callable
 
 import requests
 
+from settings.settings import Settings
+
 
 class LimiterRequest:
 
-    def __init__(self, min_request_sec: float, max_request_sec: float):
-        self.min_request_sec = min_request_sec
-        self.max_request_sec = max_request_sec
+    def __init__(self, settings: Settings):
+        self.min_delay_sec = settings.limits.min_delay_sec
+        self.max_delay_sec = settings.limits.max_delay_sec
         self._last_call_time: float = time.time()
 
     @staticmethod
@@ -18,8 +20,8 @@ class LimiterRequest:
         @wraps(func)
         def wrapper(self, *args, **kwargs) -> Any:
             elapsed = time.time() - self._last_call_time
-            target_delay = random.uniform(self.min_request_sec,
-                                          self.max_request_sec)
+            target_delay = random.uniform(self.min_delay_sec,
+                                          self.max_delay_sec)
             sleep_time = target_delay - elapsed
             if sleep_time > 0:
                 time.sleep(sleep_time)
