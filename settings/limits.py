@@ -4,7 +4,6 @@ Settings for limits
 Raise in min_delay_sec > max_delay_sec
 """
 from pydantic import BaseModel, model_validator
-from pydantic import BaseSettings
 
 
 class LimitsSettings(BaseModel):
