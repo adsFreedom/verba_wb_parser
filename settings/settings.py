@@ -10,7 +10,7 @@ class Settings(BaseSettings):
         case_sensitive=False,
         extra="ignore"
     )
-    find_str: str = ""
+    find_string: str = ""
     x_wbaas_token: str = ""
 
     def show_settings(self) -> None:
@@ -21,7 +21,7 @@ class Settings(BaseSettings):
             env_src = "Unknown source"
 
         print(f'Loaded settings from "{env_src}":')
-        print(f' - {self.find_str=}')
+        print(f' - {self.find_string=}')
         print(f' - {self.x_wbaas_token=}')
         print()
 
