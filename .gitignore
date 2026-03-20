@@ -2,3 +2,4 @@
 help
 .env
 *.pyc
+saved_json_data
