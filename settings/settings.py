@@ -9,6 +9,7 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from settings.limits import LimitsSettings
+from settings.save import SaveSettings
 
 
 class Settings(BaseSettings):
@@ -25,6 +26,11 @@ class Settings(BaseSettings):
     x_wbaas_token: str = ""
 
     limits: LimitsSettings = Field(default_factory=LimitsSettings)
+    save: SaveSettings = Field(default_factory=SaveSettings)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.show_settings()
 
     def show_settings(self) -> None:
         env_src = self.model_config.get("env_file")
@@ -33,13 +39,11 @@ class Settings(BaseSettings):
         else:
             env_src = "Unknown source"
 
-        print(f'Loaded settings from "{env_src}":')
-        print(f' - {self.find_string=}')
-        print(f' - {self.x_wbaas_token=}')
+        print(f"Loaded settings from '{env_src}':")
+        print(f" - {self.find_string=}")
+        print(f" - {self.x_wbaas_token=}")
 
-        print(f'{self.limits}')
+        print(f"{self.limits}")
+        print(f"{self.save}")
+
         print()
-
-
-settings = Settings()
-settings.show_settings()
