@@ -38,12 +38,12 @@ class Settings(BaseSettings):
             env_src = Path(env_src).resolve()
         else:
             env_src = "Unknown source"
-
+        print('---Settings-----------------------------------')
         print(f"Loaded settings from '{env_src}':")
         print(f" - {self.find_string=}")
         print(f" - {self.x_wbaas_token=}")
 
         print(f"{self.limits}")
         print(f"{self.save}")
-
+        print('----------------------------------------------')
         print()
