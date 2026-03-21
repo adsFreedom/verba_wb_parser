@@ -23,10 +23,10 @@ class FindProducts(LimiterRequest):
         self.count_products_dir = settings.save.save_json_dir / "count_products"
         self.count_products_dir.mkdir(parents=True, exist_ok=True)
 
-        self.products_count = None
+        self.products_count = 0
         super().__init__(settings)
 
-    def request_count_products(self) -> int:
+    def request_count_products(self):
         """
         Request for get count products in search
         """
@@ -95,10 +95,14 @@ class FindProducts(LimiterRequest):
             raise (f'Error find field `data.total` in request count products '
                    f'(view {save_file.resolve()} file)')
         print(f"Finish get count products {total}")
-        return total
+        self.products_count = total
 
-    def request(self, start_page: int = 1) -> Generator | None:
-        print(f"Start find products (100 per query)")
+    def request_products_pages(self, start_page: int = 1) -> Generator | None:
+        print("Start find products (100 per query)...")
+
+
+
+
         # if self.products_count is None:
 
         page: int = 1
@@ -118,7 +122,7 @@ class FindProducts(LimiterRequest):
                 "lang": "ru",
                 "query": f"{self.find_quote_str}",
                 "resultset": "catalog",
-                "sort": "priceup",
+                "sort": "newly",
                 "spp": "30",
                 "suppressSpellcheck": "false",
                 "page": f"{page}",
@@ -149,7 +153,7 @@ class FindProducts(LimiterRequest):
                 "cookie": f"x_wbaas_token={self.x_wbaas_token}"
             }
 
-            save_file = self.find_products_dir / f"find_products_{page}.json"
+            save_file = self.find_products_dir / f"{page}_find_products.json"
 
             if (json_data := self.fetch(url=url, params=params,
                                         headers=headers)) is None:

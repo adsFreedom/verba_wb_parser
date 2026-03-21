@@ -1,3 +1,8 @@
+"""
+Limiter class for custom requests.
+
+Make delay throw call requests from `min_delay_sec` and `max_delay_sec`
+"""
 import random
 import time
 from functools import wraps
