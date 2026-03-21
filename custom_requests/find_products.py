@@ -1,17 +1,12 @@
 import json
-import urllib.parse
-from typing import Generator
 import math
+from typing import Generator
 
 from tqdm import tqdm
 
 from custom_requests.limiter_request import LimiterRequest
+from custom_requests.utils import str2wb_quote
 from settings.settings import Settings
-
-
-def str2wb_quote(src: str) -> str:
-    """Make quote string as in WB"""
-    return "+".join([urllib.parse.quote(s) for s in src.split(" ")])
 
 
 class FindProducts(LimiterRequest):
