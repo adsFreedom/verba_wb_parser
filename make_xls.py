@@ -46,14 +46,20 @@ def main():
 
             goods = Goods(card=card, prod=product)
             # show all data
-            print(f'INFO:')
+            print(f'-----------================INFO:')
             print(f'Ссылка на товар: {goods.product_url}')
             print(f'Aртикул: {goods.article}')
             print(f'Название: {goods.name}')
             print(f'Цены: {goods.prices}')
             print(f'Описание: {goods.description_short}')
-            # print(f'Цена(база): {goods.price_base}')
-
+            print(f'Ссылки на изображения: {goods.img_urls}')
+            print(f'Характеристики: {goods.characteristics}')
+            print(f'Название селлера: {goods.seller_name}')
+            print(f'Ссылка на селлера: {goods.seller_url}')
+            print(f'Размеры(через запятую): {goods.sizes}')
+            print(f'Остатки по товару: {goods.quantity}')
+            print(f'Рейтинг товара: {goods.rating}')
+            print(f'Количество отзывов: {goods.feedbacks}')
 
             a = 2
         a = 2

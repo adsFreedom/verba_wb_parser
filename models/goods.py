@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from models.card import Card
 from models.product import Product
@@ -32,3 +32,45 @@ class Goods(BaseModel):
     @property
     def description_short(self) -> str:
         return f"{self.card.descr[:50]} ... {self.card.descr[-50:]}"
+
+    @property
+    def img_urls(self) -> str:
+        sid = str(self.card.id)
+        pic_url_list = []
+        for p in range(1, self.prod.pics + 1):
+            url = (f"https://rst-basket-cdn-03bl.geobasket.ru/"
+                   f"vol{sid[:4]}/part{sid[:6]}/{sid}/images/big/{p}.webp")
+            pic_url_list.append(url)
+        return ",\n".join(pic_url_list)
+
+    @property
+    def characteristics(self) -> str:
+        res = ""
+        for gopt in self.card.group_options:
+            for opt in gopt.options:
+                res += f"{opt.name}:{opt.value},\n"
+        return res
+
+    @property
+    def seller_name(self) -> str:
+        return self.prod.supplier
+
+    @property
+    def seller_url(self) -> str:
+        return f"https://www.wildberries.ru/seller/{self.prod.supplier_id}"
+
+    @property
+    def sizes(self) -> str:
+        return ",".join([s.name for s in self.prod.sizes])
+
+    @property
+    def quantity(self) -> str:
+        return str(self.prod.total_quantity)
+
+    @property
+    def rating(self) -> str:
+        return str(self.prod.rating)
+
+    @property
+    def feedbacks(self) -> str:
+        return str(self.prod.feedbacks)
