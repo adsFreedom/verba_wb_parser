@@ -1,8 +1,11 @@
 import json
 import urllib.parse
 from typing import Generator
+import math
 
-from limiter_request import LimiterRequest
+from tqdm import tqdm
+
+from custom_requests.limiter_request import LimiterRequest
 from settings.settings import Settings
 
 
@@ -23,7 +26,6 @@ class FindProducts(LimiterRequest):
         self.count_products_dir = settings.save.save_json_dir / "count_products"
         self.count_products_dir.mkdir(parents=True, exist_ok=True)
 
-        self.products_count = 0
         super().__init__(settings)
 
     def request_count_products(self):
@@ -95,48 +97,46 @@ class FindProducts(LimiterRequest):
             raise (f'Error find field `data.total` in request count products '
                    f'(view {save_file.resolve()} file)')
         print(f"Finish get count products {total}")
-        self.products_count = total
+        return total
 
-    def request_products_pages(self, start_page: int = 1) -> Generator | None:
-        print("Start find products (100 per query)...")
+    def request_products_pages(
+            self, cnt_products: int = 0) -> Generator | None:
+        """
+        Find list products pages, 100 products per page.
+        """
+        print(f"Start find products {cnt_products} (100 per query)...")
 
-
-
-
-        # if self.products_count is None:
-
-        page: int = 1
-        while True:
+        cnt_pages = math.ceil(cnt_products / 100)
+        for page in tqdm(range(1, cnt_pages + 1)):
             url = (
                 "https://www.wildberries.ru/__internal/"
                 "u-search/exactmatch/ru/common/v18/search"
             )
 
             params = {
-                "ab_testid": "model_size_dot",
+                "ab_testing": "false",
                 "appType": "1",
                 "curr": "rub",
                 "dest": "-2228364",
                 "hide_vflags": "4294967296",
                 "inheritFilters": "false",
                 "lang": "ru",
-                "query": f"{self.find_quote_str}",
+                "page": f"{page}",
+                "query": f"{self.find_string}",
                 "resultset": "catalog",
                 "sort": "newly",
                 "spp": "30",
                 "suppressSpellcheck": "false",
-                "page": f"{page}",
-                "autoselectFilters": "false",
             }
 
             headers = {
                 "authority": "www.wildberries.ru",
-                "method": "GET",
-                "scheme": "https",
                 "accept": "*/*",
                 "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+                "priority": "u=1, i",
                 "referer": f"https://www.wildberries.ru/catalog/0/search.aspx?"
-                           f"search={self.find_quote_str}",
+                           f"page={page}&sort=newly&"
+                           f"search={self.find_quote_str}&meta_charcs=false",
                 "sec-ch-ua": '"Chromium";v="146", "Not-A.Brand";v="24", '
                              '"Google Chrome";v="146"',
                 "sec-ch-ua-mobile": "?0",
@@ -148,12 +148,12 @@ class FindProducts(LimiterRequest):
                               "AppleWebKit/537.36 (KHTML, like Gecko) "
                               "Chrome/146.0.0.0 Safari/537.36",
                 "x-requested-with": "XMLHttpRequest",
-                "x-spa-version": "14.2.2",
+                "x-spa-version": "14.2.3",
                 "x-userid": "0",
                 "cookie": f"x_wbaas_token={self.x_wbaas_token}"
             }
 
-            save_file = self.find_products_dir / f"{page}_find_products.json"
+            save_file = self.find_products_dir / f"{page}_page.json"
 
             if (json_data := self.fetch(url=url, params=params,
                                         headers=headers)) is None:
@@ -165,10 +165,3 @@ class FindProducts(LimiterRequest):
             with open(save_file, "w", encoding="utf-8") as f:
                 json.dump(json_data, f, ensure_ascii=False, indent=2)
             yield save_file
-
-            if (total := json_data.get("total", None)) is None:
-                raise f"Error find field 'total' in request 'find_products'"
-            if total <= page * 100:
-                break
-
-            page += 1
