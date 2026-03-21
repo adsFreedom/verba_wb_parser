@@ -30,6 +30,7 @@ class FindProducts(LimiterRequest):
         """
         Request for get count products in search
         """
+        print("Start get count products...")
         url = (
             "https://www.wildberries.ru/__internal/"
             "u-search/exactmatch/ru/common/v18/search"
@@ -93,6 +94,7 @@ class FindProducts(LimiterRequest):
         if (total := json_data_data.get("total")) is None:
             raise (f'Error find field `data.total` in request count products '
                    f'(view {save_file.resolve()} file)')
+        print(f"Finish get count products {total}")
         return total
 
     def request(self, start_page: int = 1) -> Generator | None:
