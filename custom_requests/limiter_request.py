@@ -45,7 +45,7 @@ class LimiterRequest:
         except requests.exceptions.HTTPError as e:
             print(f"Error HTTP: {e}")
             print(f"Server response (first 200 simbols): {response.text[:200]}")
-            raise f'Error {e}'
+            return None
 
         except Exception as e:
             print(f"Error: Exception {e}")
