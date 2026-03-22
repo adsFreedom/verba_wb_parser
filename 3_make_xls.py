@@ -52,7 +52,7 @@ def main():
                 print(f'Ссылка на товар: {goods.product_url}')
                 print(f'Aртикул: {goods.article}')
                 print(f'Название: {goods.name}')
-                print(f'Цены: {goods.prices}')
+                print(f'Цена: {goods.price}')
                 print(f'Описание: {goods.description_short}')
                 print(f'Ссылки на изображения: {goods.img_urls}')
                 print(f'Характеристики: {goods.characteristics}')

@@ -14,7 +14,7 @@ class Goods(BaseModel):
         ("product_url", "Ссылка на товар"),
         ("article", "Артикул"),
         ("name", "Название"),
-        ("prices", "Цена"),
+        ("price", "Цена"),
         ("description", "Описание"),
         ("img_urls", "Ссылки на изображения"),
         ("characteristics", "Характеристики"),
@@ -52,9 +52,9 @@ class Goods(BaseModel):
         return self.card.name
 
     @property
-    def prices(self) -> list[str]:
-        return [f"{p.price_prod // 100}.{p.price_prod % 100:02}"
-                for p in self.prod.sizes]
+    def price(self) -> float:
+        p = max([p.price_prod for p in self.prod.sizes])
+        return p / 100
 
     @property
     def description(self) -> str:
@@ -95,13 +95,13 @@ class Goods(BaseModel):
         return ",".join([s.name for s in self.prod.sizes])
 
     @property
-    def quantity(self) -> str:
-        return str(self.prod.total_quantity)
+    def quantity(self) -> int:
+        return self.prod.total_quantity
 
     @property
-    def rating(self) -> str:
-        return str(self.prod.rating)
+    def rating(self) -> float:
+        return self.prod.rating
 
     @property
-    def feedbacks(self) -> str:
-        return str(self.prod.feedbacks)
+    def feedbacks(self) -> int:
+        return self.prod.feedbacks
