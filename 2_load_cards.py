@@ -1,7 +1,8 @@
 """
 Load info about every card from `find_all_products`
 """
-from custom_requests.product_card import ProductCard
+from custom_requests.cards_request import CardsRequest
+
 from settings.settings import Settings
 
 
@@ -9,8 +10,8 @@ def main():
     print("---=== START ===---")
     settings = Settings(save={"auto_create": False})
 
-    product_card = ProductCard(settings)
-    for _ in product_card.request_product_info():
+    cards_request = CardsRequest(settings)
+    for _ in cards_request.request_product_info():
         pass
     print("---=== FINISH ===---")
 

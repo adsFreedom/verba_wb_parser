@@ -9,13 +9,13 @@ from custom_requests.utils import str2wb_quote
 from settings.settings import Settings
 
 
-class FindProducts(LimiterRequest):
+class PagesRequest(LimiterRequest):
     def __init__(self, settings: Settings):
         self.find_string = settings.find_string
         self.find_quote_str = str2wb_quote(self.find_string)
         self.x_wbaas_token = settings.x_wbaas_token
 
-        self.find_products_dir = settings.save.save_json_dir / "find_products"
+        self.find_products_dir = settings.save.save_json_dir / "pages"
         self.find_products_dir.mkdir(parents=True, exist_ok=True)
 
         self.count_products_dir = settings.save.save_json_dir / "count_products"

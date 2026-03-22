@@ -8,16 +8,16 @@ from custom_requests.utils import str2wb_quote
 from settings.settings import Settings
 
 
-class ProductCard(LimiterRequest):
+class CardsRequest(LimiterRequest):
     def __init__(self, settings: Settings):
         self.find_string = settings.find_string
         self.find_quote_str = str2wb_quote(self.find_string)
         self.x_wbaas_token = settings.x_wbaas_token
 
-        self.prod_cards_dir = settings.save.save_json_dir / "product_cards"
+        self.prod_cards_dir = settings.save.save_json_dir / "cards"
         self.prod_cards_dir.mkdir(parents=True, exist_ok=True)
 
-        self.find_products_dir = settings.save.save_json_dir / "find_products"
+        self.find_products_dir = settings.save.save_json_dir / "pages"
         if not self.find_products_dir.exists():
             raise (f"Not exists directory {self.find_products_dir}"
                    f"Need first run script `find_all_products`")
@@ -58,8 +58,10 @@ class ProductCard(LimiterRequest):
         for prod_id in tqdm(prod_id_list):
             sid = str(prod_id)
 
-            url = (f"https://rst-basket-cdn-01bl.geobasket.ru/"
+            url = (f"https://rst-basket-cdn-04bl.geobasket.ru/"
                    f"vol{sid[:4]}/part{sid[:6]}/{prod_id}/info/ru/card.json")
+            # url = (f"https://basket-05.wbbasket.ru/"
+            #        f"vol{sid[:4]}/part{sid[:6]}/{prod_id}/info/ru/card.json")
 
             params = {}
             headers = {
