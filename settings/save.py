@@ -70,7 +70,7 @@ class SaveSettings(BaseModel):
         str_list = [
             "",
             "Save",
-            f" - auto_create: {self.auto_create}"
+            f" - auto_create: {self.auto_create}",
             f" - save_json_dir: {self.save_json_dir.resolve()}"
         ]
         return "\n".join(str_list)
