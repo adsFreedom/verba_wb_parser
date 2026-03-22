@@ -11,6 +11,8 @@ from utils.xls_writer import XlsWriter
 
 def main():
     print("---=== START ===---")
+    is_debug = True
+
     settings = Settings(save={"auto_create": False})
 
     pages_dir = settings.save.pages_dir
@@ -47,30 +49,29 @@ def main():
                     raise f'Error: validate Card in {card_file=}'
 
                 goods = Goods(card=card, prod=product)
-                # show all data
-                print(f'-----------================INFO:')
-                print(f'Ссылка на товар: {goods.product_url}')
-                print(f'Aртикул: {goods.article}')
-                print(f'Название: {goods.name}')
-                print(f'Цена: {goods.price}')
-                print(f'Описание: {goods.description_short}')
-                print(f'Ссылки на изображения: {goods.img_urls}')
-                print(f'Характеристики: {goods.characteristics}')
-                print(f'Название селлера: {goods.seller_name}')
-                print(f'Ссылка на селлера: {goods.seller_url}')
-                print(f'Размеры(через запятую): {goods.sizes}')
-                print(f'Остатки по товару: {goods.quantity}')
-                print(f'Рейтинг товара: {goods.rating}')
-                print(f'Количество отзывов: {goods.feedbacks}')
-
                 ws.write_good(goods)
-                if i >= 5:
-                    break
+                if is_debug:
+                    print(f'-----------================INFO:')
+                    print(f'Ссылка на товар: {goods.product_url}')
+                    print(f'Aртикул: {goods.article}')
+                    print(f'Название: {goods.name}')
+                    print(f'Цена: {goods.price}')
+                    print(f'Описание: {goods.description_short}')
+                    print(f'Ссылки на изображения: {goods.img_urls}')
+                    print(f'Характеристики: {goods.characteristics}')
+                    print(f'Название селлера: {goods.seller_name}')
+                    print(f'Ссылка на селлера: {goods.seller_url}')
+                    print(f'Размеры(через запятую): {goods.sizes}')
+                    print(f'Остатки по товару: {goods.quantity}')
+                    print(f'Рейтинг товара: {goods.rating}')
+                    print(f'Количество отзывов: {goods.feedbacks}')
+
+                    if i >= 25:
+                        break
             else:
                 continue
-            break
-            a = 2
-    a = 2
+            if is_debug:
+                break
     print("---=== FINISH ===---")
 
 
