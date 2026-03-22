@@ -44,5 +44,5 @@ class XlsWriter:
     def _apply_widths(self):
         for i, width in enumerate(self.max_widths, start=1):
             col_letter = get_column_letter(i)
-            adjusted = min(width + 2, 50)
+            adjusted = min(width + 2, 120)
             self.ws.column_dimensions[col_letter].width = adjusted
