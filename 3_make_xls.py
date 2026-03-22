@@ -13,8 +13,8 @@ def main():
     print("---=== START ===---")
     settings = Settings(save={"auto_create": False})
 
-    pages_dir = settings.save.save_json_dir / "pages"
-    cards_dir = settings.save.save_json_dir / "cards"
+    pages_dir = settings.save.pages_dir
+    cards_dir = settings.save.cards_dir
 
     with XlsWriter("res.xlsx") as ws:
         for page_file in tqdm(pages_dir.glob("*")):

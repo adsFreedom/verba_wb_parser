@@ -14,10 +14,9 @@ class CardsRequest(LimiterRequest):
         self.find_quote_str = str2wb_quote(self.find_string)
         self.x_wbaas_token = settings.x_wbaas_token
 
-        self.prod_cards_dir = settings.save.save_json_dir / "cards"
-        self.prod_cards_dir.mkdir(parents=True, exist_ok=True)
+        self.cards_dir = settings.save.cards_dir
 
-        self.find_products_dir = settings.save.save_json_dir / "pages"
+        self.find_products_dir = settings.save.pages_dir
         if not self.find_products_dir.exists():
             raise (f"Not exists directory {self.find_products_dir}"
                    f"Need first run script `find_all_products`")
@@ -43,7 +42,7 @@ class CardsRequest(LimiterRequest):
 
         # get ready prod_id
         ready_prod_id_list = []
-        for prod_id in self.prod_cards_dir.glob("*"):
+        for prod_id in self.cards_dir.glob("*"):
             ready_prod_id_list.append(int(prod_id.stem))
 
         # remove ready from need process
@@ -81,7 +80,7 @@ class CardsRequest(LimiterRequest):
                                         headers=headers)) is None:
                 continue
 
-            save_file = self.prod_cards_dir / f"{prod_id}.json"
+            save_file = self.cards_dir / f"{prod_id}.json"
             with open(save_file, "w", encoding="utf-8") as f:
                 json.dump(json_data, f, ensure_ascii=False, indent=2)
             yield save_file

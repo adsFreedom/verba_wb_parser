@@ -15,11 +15,8 @@ class PagesRequest(LimiterRequest):
         self.find_quote_str = str2wb_quote(self.find_string)
         self.x_wbaas_token = settings.x_wbaas_token
 
-        self.find_products_dir = settings.save.save_json_dir / "pages"
-        self.find_products_dir.mkdir(parents=True, exist_ok=True)
-
-        self.count_products_dir = settings.save.save_json_dir / "count_products"
-        self.count_products_dir.mkdir(parents=True, exist_ok=True)
+        self.find_products_dir = settings.save.pages_dir
+        self.count_products_dir = settings.save.count_products_dir
 
         super().__init__(settings)
 

@@ -17,6 +17,24 @@ class SaveSettings(BaseModel):
     save_json_dir: Path = Path("saved_json_data")
     auto_create: bool = False
 
+    @property
+    def pages_dir(self) -> Path:
+        p_dir = self.save_json_dir / "pages"
+        p_dir.mkdir(parents=True, exist_ok=True)
+        return p_dir
+
+    @property
+    def count_products_dir(self) -> Path:
+        c_dir = self.save_json_dir / "count_products"
+        c_dir.mkdir(parents=True, exist_ok=True)
+        return c_dir
+
+    @property
+    def cards_dir(self) -> Path:
+        c_dir = self.save_json_dir / "cards"
+        c_dir.mkdir(parents=True, exist_ok=True)
+        return c_dir
+
     def model_post_init(self, context: Any) -> None:
         """
         For find product create new dir for results
