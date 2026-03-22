@@ -1,4 +1,6 @@
-from pydantic import BaseModel, Field
+from typing import ClassVar
+
+from pydantic import BaseModel
 
 from models.card import Card
 from models.product import Product
@@ -7,6 +9,35 @@ from models.product import Product
 class Goods(BaseModel):
     card: Card
     prod: Product
+
+    EXPORT_FIELDS: ClassVar = [
+        ("product_url", "Ссылка на товар"),
+        ("article", "Артикул"),
+        ("name", "Название"),
+        ("prices", "Цена"),
+        ("description", "Описание"),
+        ("img_urls", "Ссылки на изображения"),
+        ("characteristics", "Характеристики"),
+        ("seller_name", "Название селлера"),
+        ("seller_url", "Ссылка на селлера"),
+        ("sizes", "Размеры товара"),
+        ("quantity", "Остатки по товару"),
+        ("rating", "Рейтинг"),
+        ("feedbacks", "Количество отзывов"),
+    ]
+
+    @classmethod
+    def export_headers(cls):
+        return [title for _, title in cls.EXPORT_FIELDS]
+
+    def export_row(self):
+        row = []
+        for attr, _ in self.EXPORT_FIELDS:
+            value = getattr(self, attr)
+            if isinstance(value, list):
+                value = ", ".join(map(str, value))
+            row.append(value)
+        return row
 
     @property
     def product_url(self) -> str:
@@ -41,7 +72,7 @@ class Goods(BaseModel):
             url = (f"https://rst-basket-cdn-03bl.geobasket.ru/"
                    f"vol{sid[:4]}/part{sid[:6]}/{sid}/images/big/{p}.webp")
             pic_url_list.append(url)
-        return ",\n".join(pic_url_list)
+        return " ,\n".join(pic_url_list)
 
     @property
     def characteristics(self) -> str:
