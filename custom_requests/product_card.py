@@ -77,7 +77,7 @@ class ProductCard(LimiterRequest):
             }
             if (json_data := self.fetch(url=url, params=params,
                                         headers=headers)) is None:
-                return
+                continue
 
             save_file = self.prod_cards_dir / f"{prod_id}.json"
             with open(save_file, "w", encoding="utf-8") as f:
