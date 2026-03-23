@@ -37,15 +37,15 @@ def main():
                 card_file = cards_dir / f"{product.id}.json"
                 if not card_file.exists():
                     print(f'Error: NOT found file {card_file}')
-                    continue
-
-                with open(card_file, "r", encoding="utf-8") as f:
-                    card_json = json.load(f)
-                try:
-                    card = Card.model_validate(card_json)
-                except ValidationError as e:
-                    print(e)
-                    raise f'Error: validate Card in {card_file=}'
+                    card = Card()
+                else:
+                    with open(card_file, "r", encoding="utf-8") as f:
+                        card_json = json.load(f)
+                    try:
+                        card = Card.model_validate(card_json)
+                    except ValidationError as e:
+                        print(e)
+                        raise f'Error: validate Card in {card_file=}'
 
                 goods = Goods(card=card, prod=product)
                 ws.write_good(goods)
