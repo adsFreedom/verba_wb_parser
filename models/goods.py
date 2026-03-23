@@ -77,6 +77,9 @@ class Goods(BaseModel):
     @property
     def characteristics(self) -> str:
         res = ""
+        for opt in self.card.options:
+            res += f"{opt.name}:{opt.value},\n"
+
         for gopt in self.card.group_options:
             for opt in gopt.options:
                 res += f"{opt.name}:{opt.value},\n"
