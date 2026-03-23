@@ -58,7 +58,7 @@ class CardsRequest(LimiterRequest):
             sid = str(prod_id)
 
             url = (f"https://rst-basket-cdn-04bl.geobasket.ru/"
-                   f"vol{sid[:4]}/part{sid[:6]}/{prod_id}/info/ru/card.json")
+                   f"vol{sid[:-5]}/part{sid[:-3]}/{prod_id}/info/ru/card.json")
             # url = (f"https://basket-05.wbbasket.ru/"
             #        f"vol{sid[:4]}/part{sid[:6]}/{prod_id}/info/ru/card.json")
 
