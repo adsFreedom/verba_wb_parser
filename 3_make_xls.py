@@ -9,18 +9,22 @@ from settings.settings import Settings
 from utils.xls_writer import XlsWriter
 
 
+MIN_RAITING = 4.5
+MAX_PRICE = 10000
+COUNTRY = 'Россия'
+
 def main():
     print("---=== START ===---")
-    is_debug = True
+    is_debug = False
 
     settings = Settings(save={"auto_create": False})
 
     pages_dir = settings.save.pages_dir
     cards_dir = settings.save.cards_dir
 
-    with XlsWriter("res.xlsx") as ws:
+    with (XlsWriter("results.xlsx") as ws,
+          XlsWriter("results_filtered.xlsx") as fws):
         for page_file in tqdm(pages_dir.glob("*")):
-
             with open(page_file, "r", encoding="utf-8") as f:
                 page_json = json.load(f)
 
@@ -49,6 +53,9 @@ def main():
 
                 goods = Goods(card=card, prod=product)
                 ws.write_good(goods)
+                if goods.price <= MAX_PRICE and goods.rating > MIN_RAITING:
+                    if goods.country == COUNTRY:
+                        fws.write_good(goods)
                 if is_debug:
                     print(f'-----------================INFO:')
                     print(f'Ссылка на товар: {goods.product_url}')

@@ -108,3 +108,15 @@ class Goods(BaseModel):
     @property
     def feedbacks(self) -> int:
         return self.prod.feedbacks
+
+    @property
+    def country(self) -> str:
+        for opt in self.card.options:
+            if opt.name == "Страна производства":
+                return opt.value
+
+        for gopt in self.card.group_options:
+            for opt in gopt.options:
+                if opt.name == "Страна производства":
+                    return opt.value
+        return ""
