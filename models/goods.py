@@ -66,7 +66,7 @@ class Goods(BaseModel):
 
     @property
     def img_urls(self) -> str:
-        sid = str(self.card.id)
+        sid = str(self.prod.id)
         pic_url_list = []
         for p in range(1, self.prod.pics + 1):
             url = (f"https://rst-basket-cdn-03bl.geobasket.ru/"
