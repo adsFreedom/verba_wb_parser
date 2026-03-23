@@ -20,7 +20,6 @@ def main():
 
     with XlsWriter("res.xlsx") as ws:
         for page_file in tqdm(pages_dir.glob("*")):
-            print(f"Process page: {page_file.name}...")
 
             with open(page_file, "r", encoding="utf-8") as f:
                 page_json = json.load(f)
