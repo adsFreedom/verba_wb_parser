@@ -12,4 +12,5 @@ class Card(BaseModel):
     id: int = Field(alias="nm_id")
     name: str = Field(alias="imt_name")
     descr: str = Field(alias="description")
-    group_options: list[GroupOption] = Field(alias="grouped_options")
+    group_options: list[GroupOption] = Field(default_factory=list,
+                                             alias="grouped_options")
