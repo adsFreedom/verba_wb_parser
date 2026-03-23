@@ -50,7 +50,7 @@ class CardsRequest(LimiterRequest):
                         if prod_id not in ready_prod_id_list]
 
         print(f'  All      : {len(all_prod_id_list)}')
-        print(f'  unique ids      : {len(set(all_prod_id_list))}')
+        print(f'  uniq ids : {len(set(all_prod_id_list))}')
         print(f'  Ready    : {len(ready_prod_id_list)}')
         print(f'  Need load: {len(prod_id_list)}')
         print()
