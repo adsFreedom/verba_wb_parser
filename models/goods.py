@@ -14,7 +14,7 @@ class Goods(BaseModel):
         ("product_url", "Ссылка на товар"),
         ("article", "Артикул"),
         ("name", "Название"),
-        ("price", "Цена"),
+        ("price", "Цена (руб.)"),
         ("description", "Описание"),
         ("img_urls", "Ссылки на изображения"),
         ("characteristics", "Характеристики"),
