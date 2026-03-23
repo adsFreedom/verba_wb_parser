@@ -150,9 +150,6 @@ class PagesRequest(LimiterRequest):
             if (json_data := self.fetch(url=url, params=params,
                                         headers=headers)) is None:
                 return None
-            # with open(save_file, "r", encoding="utf-8") as f:
-            #     json_data = json.load(f)
-            # a = 2
 
             with open(save_file, "w", encoding="utf-8") as f:
                 json.dump(json_data, f, ensure_ascii=False, indent=2)
