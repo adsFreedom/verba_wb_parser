@@ -70,7 +70,7 @@ class Goods(BaseModel):
         pic_url_list = []
         for p in range(1, self.prod.pics + 1):
             url = (f"https://rst-basket-cdn-03bl.geobasket.ru/"
-                   f"vol{sid[:4]}/part{sid[:6]}/{sid}/images/big/{p}.webp")
+                   f"vol{sid[:-5]}/part{sid[:-3]}/{sid}/images/big/{p}.webp")
             pic_url_list.append(url)
         return " ,\n".join(pic_url_list)
 
