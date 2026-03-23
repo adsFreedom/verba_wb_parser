@@ -41,15 +41,15 @@ class Goods(BaseModel):
 
     @property
     def product_url(self) -> str:
-        return f"https://www.wildberries.ru/catalog/{self.card.id}/detail.aspx"
+        return f"https://www.wildberries.ru/catalog/{self.prod.id}/detail.aspx"
 
     @property
     def article(self) -> str:
-        return str(self.card.id)
+        return str(self.prod.id)
 
     @property
     def name(self) -> str:
-        return self.card.name
+        return self.card.name if self.card.name != "" else self.prod.name
 
     @property
     def price(self) -> float:
